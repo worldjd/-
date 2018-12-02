@@ -16,9 +16,17 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+from goods.views import index
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^index/', include('sunmall.urls', namespace='index')),
+    url(r'^$', index),
+    url(r'^shop/', include('sunmall.urls', namespace='shop')),
+    url(r'^search/', include('haystack.urls')),
     url(r'^user/', include('myuser.urls', namespace='user')),
+    url(r'^index/', include('goods.urls', namespace='index')),
+    url(r'^cart/', include('cart.urls', namespace='cart')),
+    url(r'^allorder/', include('allorder.urls', namespace='allorder')),
+    # 上传部件自动调用的上传地址
+    url(r'^ckeditor/', include("ckeditor_uploader.urls")),
 ]

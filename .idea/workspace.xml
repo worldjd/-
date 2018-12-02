@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dd44900b-5160-4b08-b5b1-5ea42af33267" name="Default Changelist" comment="" />
+    <list default="true" id="dd44900b-5160-4b08-b5b1-5ea42af33267" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/mall/myuser/helper.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall/myuser/migrations/0005_auto_20181120_1414.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall/myuser/migrations/0006_auto_20181120_1842.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall/myuser/migrations/0007_user_image.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall/myuser/migrations/0008_auto_20181121_1457.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall/static/media/infortx.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall/templates/login/forgetpassword.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mall/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall/mall/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/mall/mall/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall/myuser/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/mall/myuser/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall/myuser/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/mall/myuser/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall/myuser/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mall/myuser/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall/myuser/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mall/myuser/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall/templates/bese/bese.html" beforeDir="false" afterPath="$PROJECT_DIR$/mall/templates/bese/bese.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall/templates/index/member.html" beforeDir="false" afterPath="$PROJECT_DIR$/mall/templates/index/member.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall/templates/login/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/mall/templates/login/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall/templates/login/reg.html" beforeDir="false" afterPath="$PROJECT_DIR$/mall/templates/login/reg.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall/templates/member/infor.html" beforeDir="false" afterPath="$PROJECT_DIR$/mall/templates/member/infor.html" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,9 +31,10 @@
     <session id="2145737888">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
+          <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.14" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
     </session>
@@ -39,13 +59,23 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
       <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="shopmake" type="b2602c69:ProjectViewProjectNode" />
+              <item name="shopmake" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/mall" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
@@ -78,15 +108,9 @@
   <component name="ToolWindowManager">
     <frame x="311" y="47" width="1371" height="931" extended-state="0" />
     <layout>
-      <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24980725" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2544333" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Python Console" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -94,11 +118,17 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="SciView" />
-      <window_info anchor="right" id="Database" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="11" />
+      <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="right" id="Database" order="4" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">

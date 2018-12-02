@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>超市</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="renderer" content="webkit">
+		<link href="{% static 'css/amazeui.min.css' %}" rel="stylesheet" type="text/css" />
+		<link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<header data-am-widget="header" class="am-header am-header-default sq-head ">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="" class="">确认订单</a>
+            </h1>
+	    </header>
+	    <div style="height: 49px;"></div>
+        <form action="" method="post" id="order_all">
+        {% csrf_token %}
+            {% if glad %}
+                <ul>
+                <li>
+                <p>收货人：{{ glad.username }}&nbsp;&nbsp;{{ glad.phone }}</p>
+                <input type="hidden" name="address_id" value="{{ glad.id }}">
+                <p class="order-add1">收货地址：{{ glad.hcity }}{{ glad.hproper }}{{ glad.harea }}{{ glad.detail }}</p>
+                </li>
+                </ul>
+                {% else %}
+                <div class="add-address">
+                <a href="{% url 'user:gladdress' %}">+新建收货地址</a>
+                <i class="am-icon-angle-right"></i>
+                </div>
+            {% endif %}
+        <div style="background: #eee; height: 10px;"></div>
+        <ul class="shopcart-list" style="padding-bottom: 0;">
+            {% for s in sku %}
+            <li>
+            <input type="hidden" name="sku_id" value="{{ s.id }}">
+            <img src="{{ MEDIA_URL }}{{ s.sku_logo_address }}" class="shop-pic" />
+            <div class="order-mid">
+                <div class="tit">{{ s.sku_spu_id.spu_name }}&emsp;{{ s.sku_trade_name }}</div>
+                <div class="order-price">￥{{ s.sku_price }} <i>X{{ s.count }}</i></div>
+            </div>
+            </li>
+            {% endfor %}
+	    </ul>
+	    <ul class="order-infor">
+	    	<li class="order-infor-first">
+	    		<span>商品总计：</span>
+	    		<i>￥<span id="goodsprice">{{ price }}</span></i>
+	    	</li>
+	    	<li class="order-infor-first">
+            <span>运输方式：</span>
+                <select name="transport" id="transport">
+                    {% for tran in trans %}
+                    <option value="{{ tran.id }}" price="{{ tran.price }}">{{ tran.name }}价格￥<i id="trans_price">{{ tran.price }}</i></option>
+                    {% endfor %}
+                </select>
+	    	</li>
+	    </ul>
+        </form>
+	    <div style="background: #eee; height: 10px;"></div>
+	    <textarea placeholder="备注说明" class="bz-infor"></textarea>
+	    <div style="background: #eee; height: 10px;"></div>
+	    <div style="height: 55px;"></div>
+	    <div class="shop-fix">
+	    	<div class="order-text">
+	    		应付总额：<span id="total">￥188</span>
+	    	</div>
+	    	<a href="javascript:;" class="js-btn">提交订单</a>
+	    </div>
+<!--底部-->
+ <div style="height: 55px;"></div>
+ <div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default sq-foot am-no-layout" id="">
+      <ul class="am-navbar-nav am-cf am-avg-sm-5">   
+          <li>
+            <a href="index.html" class="">
+                <span class="am-icon-home"></span>
+                <span class="am-navbar-label">首页</span>
+            </a>
+          </li>
+          <li>
+            <a href="message.html" class="">
+                <span class="am-icon-comments"></span>
+                <span class="am-navbar-label">动态</span>
+            </a>
+          </li>
+          <li>
+            <a href="shopcart.html" class="">
+                <span class="am-icon-shopping-cart"></span>
+                <span class="am-navbar-label">购物车</span>
+            </a>
+          </li>
+          <li>
+            <a href="allorder.html" class="">
+                <span class="am-icon-file-text"></span>
+                <span class="am-navbar-label">订单</span>
+            </a>
+          </li>
+          <li>
+            <a href="member.html" class="curr">
+                <span class="am-icon-user"></span>
+                <span class="am-navbar-label">我的</span>
+            </a>
+          </li>
+      </ul>
+</div>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/amazeui.min.js' %}"></script>
+        <script>
+            $(function () {
+                //获取价格
+                //创建函数保存
+                function totalprice() {
+                    var trans_price = $('#transport').find(':selected').attr('price');
+                    var goods_price = $('#goodsprice').text();
+                    var total = parseFloat(trans_price)+parseFloat(goods_price);
+                    $('#total').text(total.toFixed(2));
+                }
+                totalprice();
+                // 改变总价的样式
+                $('#transport').on('change',function () {
+                    totalprice();
+                });
+                // 确认订单保存事件
+                $('.js-btn').on('click',function () {
+                    var data = $('#order_all').serialize();
+                    // 地址必须选择
+                    $.ajax({
+                        type:'POST',
+                        url:'{% url 'allorder:tureorder' %}',
+                        data:data,
+                        dataType:'json',
+                        success:function (data) {
+                            if(data.code == 0){
+                                location.href = '{% url 'allorder:showorder' %}?order_number='+data.order_number
+                            }else{
+                                alert('确认订单失败!')
+                            }
+                        }
+                    })
+                })
+            })
+        </script>
+	</body>
+</html>

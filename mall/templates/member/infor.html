@@ -14,6 +14,7 @@
 		<link href="{% static 'css/check.css' %}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
+
 		<header data-am-widget="header" class="am-header am-header-default sq-head ">
 			<div class="am-header-left am-header-nav">
 				<a href="javascript:history.back()" class="">
@@ -25,60 +26,72 @@
             </h1>
 	    </header>
 	    <div style="height: 49px;"></div>
+        <form action="{% url 'user:img' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
 	    <ul class="safty1">
 	    	<li>
-	    		<a href="">
 	    			<i style="margin-top: 25px;">头像</i>
 	    			<div class="infor-pic">
-	    				<img src="{% static 'images/infortx.png' %}" />
+	    				<img src="{{ MEDIA_URL }}{{ user.image }}" />
 	    			</div>
-	    		</a>
+                    <div class="am-form-group am-form-file">
+                        <i class="am-icon-cloud-upload"></i> 选择要上传的文件
+                        <input type="file" name="file" multiple>
+                    </div>
+                    <input class="am-btn am-btn-danger" type="submit" value="上传"/>
 	    	</li>
+            </ul>
+        </form>
+        <form action="" method="post">
+                {% csrf_token %}
+            <ul class="safty1">
 	    	<li>
-	    		<a href="">
 	    			<i>昵称</i>
-	    			<input class="infor-tele" placeholder="默契"/>	    			
-	    		</a>
+	    			<input class="infor-tele" name="username" value="{{ user.username|default:'' }}" placeholder="请输入您的昵称"/>
 	    	</li>
 	    	<li>
-	    		<a href="">
 	    			<i>性别</i>
 	    			<i class="infor-tele">
 	    				<label class="am-radio-inline">
-				          <input type="radio" name="radio10" checked="checked" value="1" data-am-ucheck>男
+				          <input type="radio" name="sex" checked="checked" value="1" data-am-ucheck>男
 				        </label>
 				        <label class="am-radio-inline">
-				          <input type="radio" name="radio10" value="1" data-am-ucheck>女
+				          <input type="radio" name="sex" value="1" data-am-ucheck>女
+				        </label>
+                        <label class="am-radio-inline">
+				          <input type="radio" name="sex" value="1" data-am-ucheck>保密
 				        </label>
 	    			</i>
-	    		</a>
-	    	</li><li>
-	    		<a href="">
+	    	</li>
+            <li>
 	    			<i>生日</i>
-                    <input class="infor-tele" placeholder="出生日期"/>
-	    		</a>
+                    <input type="date" class="infor-tele" name="birthday" value="{{ birthday|default:'' }}" placeholder="出生日期"/>
 	    	</li>
 	    </ul>
 	    <div style="height: 10px; background: #efefef;"></div>
 	     <ul class="safty1">
 	    	<li>
 	    			<i>学校</i>
-	    			<input class="infor-tele" placeholder="就读于哪个学校"/>	    			
+	    			<input class="infor-tele" name="school" value="{{ user.school|default:'' }}" placeholder="就读于哪个学校"/>
 	    	</li>
 	    	<li>
 	    			<i>位置</i>
-	    			<input class="infor-tele" placeholder="详细地址"/>	    			
+	    			<input class="infor-tele" name="location" placeholder="详细地址"/>
 	    	</li>
 	    	<li>
 	    			<i>故乡</i>
-                    <input class="infor-tele" placeholder="来自哪里"/>
+                    <input class="infor-tele" name="home" value="{{ user.home|default:'' }}" placeholder="来自哪里"/>
 	    	</li>
 	    	<li>
 	    			<i>手机</i>
-                    <input class="infor-tele" placeholder="13012345678"/>
+                    <input class="infor-tele" name="mobile" value="{{ user.mobile|default:'' }}" placeholder="13012345678"/>
+	    	</li>
+            <li>
+                    <input class="am-btn am-btn-danger" type="submit" value="修改"/>
 	    	</li>
 	    </ul>
 	    <script src="{% static 'js/jquery.min.js' %}"></script>
         <script src="{% static 'js/amazeui.min.js' %}"></script>
+        </form>
 	</body>
 </html>

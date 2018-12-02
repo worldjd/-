@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>超市</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="renderer" content="webkit">
+		<link href="{% static 'css/amazeui.min.css' %}" rel="stylesheet" type="text/css" />
+		<link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<header data-am-widget="header" class="am-header am-header-default sq-head ">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="" class="">支付订单</a>
+            </h1>
+	    </header>
+	    <div style="height: 49px;"></div>
+        <form action="" method="post" id="order_all">
+        {% csrf_token %}
+                <ul>
+                <li>
+                <p>收货人：{{ order.username }}&nbsp;&nbsp;{{ order.phone }}</p>
+                <p class="order-add1">收货地址:{{ order.address }}</p>
+                </li>
+                </ul>
+        <div style="background: #eee; height: 10px;"></div>
+        <ul class="shopcart-list" style="padding-bottom: 0;">
+            {% for f in order.ordergoods_set.all %}
+                <li>
+                <img src="{{ MEDIA_URL }}{{ f.goods_sku.sku_logo_address }}" class="shop-pic" />
+                <div class="order-mid">
+                    <div class="tit">{{ f.goods_sku.sku_spu_id.spu_name }}&emsp;{{ f.goods_sku.sku_trade_name }}</div>
+                    <div class="order-price">￥ {{ f.goods_sku.sku_price }}<i>X{{ f.count }}</i></div>
+                </div>
+                </li>
+            {% endfor %}
+	    </ul>
+	    <ul class="order-infor">
+	    	<li class="order-infor-first">
+	    		<span>商品总计: </span>
+	    		<i>￥{{ order.order_amount }}<span id="goodsprice"></span></i>
+	    	</li>
+	    	<li class="order-infor-first">
+            <span>运输方式：{{ order.transport }}</span>
+            <i id="trans_price">价格￥{{ order.transport_price }}</i>
+	    	</li>
+	    </ul>
+        </form>
+	    <div style="background: #eee; height: 10px;"></div>
+	    <textarea placeholder="备注说明" class="bz-infor"></textarea>
+	    <div style="background: #eee; height: 10px;"></div>
+        <ul class="pay-style">
+	    	<li>
+		   	 	<img src="{% static 'images/zhi.png' %}" width="50" />
+		   	 	<span>
+		   	 		<p>支付宝</p>
+		   	 		<p class="descript">推荐有支付宝账号的用户使用</p>
+		   	 	</span>
+		   	 	<label class="am-radio-inline">
+				    <input type="radio" checked="checked" name="radio10" value="1" data-am-ucheck>
+				</label>
+	   	    </li>
+	   	    <li>
+		   	 	<img src="{% static 'images/wei.png' %}" width="50" />
+		   	 	<span>
+		   	 		<p>微信支付</p>
+		   	 		<p class="descript">推荐安装微信5.0及以上版本的使用</p>
+		   	 	</span>
+		   	 	<label class="am-radio-inline">
+				    <input type="radio" name="radio10" value="1" data-am-ucheck>
+				 </label>
+		   	</li>
+	    </ul>
+	    <div style="height: 55px;"></div>
+	    <div class="shop-fix">
+	    	<div class="order-text">
+	    		应付总额：<span id="total">￥{{ order.order_money }}</span>
+	    	</div>
+	    	<a href="{% url 'allorder:pay' %}?order_number={{ order.order_number }}" class="js-btn">确认支付</a>
+	    </div>
+<!--底部-->
+ <div style="height: 55px;"></div>
+ <div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default sq-foot am-no-layout" id="">
+      <ul class="am-navbar-nav am-cf am-avg-sm-5">   
+          <li>
+            <a href="index.html" class="">
+                <span class="am-icon-home"></span>
+                <span class="am-navbar-label">首页</span>
+            </a>
+          </li>
+          <li>
+            <a href="message.html" class="">
+                <span class="am-icon-comments"></span>
+                <span class="am-navbar-label">动态</span>
+            </a>
+          </li>
+          <li>
+            <a href="shopcart.html" class="">
+                <span class="am-icon-shopping-cart"></span>
+                <span class="am-navbar-label">购物车</span>
+            </a>
+          </li>
+          <li>
+            <a href="allorder.html" class="">
+                <span class="am-icon-file-text"></span>
+                <span class="am-navbar-label">订单</span>
+            </a>
+          </li>
+          <li>
+            <a href="member.html" class="curr">
+                <span class="am-icon-user"></span>
+                <span class="am-navbar-label">我的</span>
+            </a>
+          </li>
+      </ul>
+</div>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/amazeui.min.js' %}"></script>
+	</body>
+</html>

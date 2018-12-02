@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>超市</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="renderer" content="webkit">
+		<link href="{% static 'css/amazeui.min.css' %}" rel="stylesheet" type="text/css" />
+		<link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" />
+		<script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+		<script src="{% static 'js/time.js' %}"></script>
+		<style>
+			.shop-list-mid .tit a{color: #909090;
+    font-size: 1.4rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;}
+            .list-price {
+                background: url({% if order == 2 %}{% static 'images/order-bot.png' %}
+                {% elif order == 3 %}{% static 'images/order-top.png' %}
+                {% else %}{% static 'images/order.png' %}
+                {% endif %}) no-repeat right center;
+                padding-right: 20px;
+                font-style: normal;
+            }
+		</style>
+	</head>
+	<body>
+		<header data-am-widget="header" class="am-header am-header-default sq-head ">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+		    <div class="cate-search">
+                <form action="/search/" method="get">
+                    <input type="text" name="q" value="{{ query }}" class="cate-input" placeholder="请输入您要的搜索的产品关键词" />
+		    	    <input type="submit" value="" class="cate-btn" />
+                </form>
+	        </div>
+	    </header>
+	    <div style="height: 49px;"></div>
+	    <ul class="list-nav">
+	    	<li {% if order == 0 %}class="current"{% endif %}><a href="{% url 'index:category' cate_id 0 %}">综合</a></li>
+	    	<li {% if order == 1 %}class="current"{% endif %}><a href="{% url 'index:category' cate_id 1 %}">销量</a></li>
+            <li {% if order == 2 %}class="current"{% endif %}><a href="{% url 'index:category' cate_id 2 %}"><i class="list-price">价格</i></a></li>
+	    	<li {% if order == 4 %}class="current"{% endif %}><a href="{% url 'index:category' cate_id 4 %}">新品</a></li>
+	    </ul>
+	    <div class="content-list">
+	    	<div class="list-left">
+	    		{% for er in shop %}
+	    		    <li {% if cate_id == er.id %}class="current"{% endif %}><a href="{% url 'index:category' er.id order %}">{{ er.shop_username }}</a></li>
+	    		{% endfor %}
+	    	</div>
+	    	<div class="list-right">
+	    		<ul class="list-pro">
+                    {% for g in sku %}
+                        <li>
+                            <a href="{% url 'index:detail' g.id %}"><img src="{{ MEDIA_URL }}{{ g.sku_logo_address }}" class="list-pic" /></a>
+                            <div class="shop-list-mid" style="width: 65%;">
+                                <div class="tit"><a href="detail.html">{{ g.sku_spu_id.spu_name }}&emsp;{{ g.sku_trade_name }}</a></div>
+                                <div class="am-gallery-desc">￥{{ g.sku_price }}</div>
+                                <p>销量：{{ g.sku_Sales_volume }}</p>
+                            </div>
+                            <div class="list-cart">
+                                <div class="d-stock ">
+                                        <a class="decrease">-</a>
+                                        <input id="num" readonly="" sku_id="{{ g.id }}" class="text_box" name="" type="text" value="0">
+                                        <a class="increase">+</a>
+                                </div>
+                            </div>
+                            <!--<a href="" class="list-cart"><img src="images/cart.png" width="30"/></a>-->
+                        </li>
+                        {% empty %}
+                        <li>该分类下没有产品!</li>
+                    {% endfor %}
+	    </ul>
+	    	</div>
+	    </div>
+	    
+	    <!--底部-->
+ <div style="height: 55px;"></div>
+ <div class="fix-bot">
+	   	  <div class="fix-bot-cart"><a href="{% url 'cart:cart' %}"><i id="cart_count">{{ cart_count }}</i></a></div>
+	   	  <a href="tureorder.html" class="list-js">去结算</a>
+	   	  <a href="tureorder.html" class="list-jsk">一键快购</a>
+	   	  <!--<div class="js-text">
+            	<p><b>￥217.80</b></p>
+            	<p class="js-car">购物满50元免运费</p>
+          </div>-->
+ </div>
+ 
+ 
+ 
+ 
+ 
+ 
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/amazeui.min.js' %}"></script>
+<script>
+    //改变价格排序
+    $(function () {
+        if('{{ order }}' == 2){
+            $('.list-price').parent('a').attr('href', "{% url 'index:category' cate_id 3 %}")
+        }else if('{{ order }}' == 3){
+            $('.list-price').parent('a').attr('href', "{% url 'index:category' cate_id 2 %}")
+        }
+    });
+
+
+
+//购物数量加减
+$(function(){
+		$('.increase').click(function(){
+			var self = $(this);
+			var current_num = parseInt(self.siblings('input').val());
+			current_num += 1;
+			var sku_id = self.siblings('input').attr('sku_id');
+			var count = 1;
+			var context = {
+			  'sku_id': sku_id,
+              'count': count,
+              'csrfmiddlewaretoken': '{{ csrf_token }}',
+            };
+            $.ajax({
+                type:'POST',
+                url:'{% url 'cart:shopcart' %}',
+                data:context,
+                dataType:'json',
+                success:function (data) {
+                    if(data.code == 0){
+                        if(current_num > 0){
+                            self.siblings(".decrease").fadeIn();
+                            self.siblings(".text_box").fadeIn();
+                        }
+                        self.siblings('input').val(current_num);
+                        // 更新购物车的显示数量
+                        $('#cart_count').text(data.cart_count);
+
+                    }else if(data.code == 1){
+                        var res = confirm('未登陆,是否登陆!');
+                        if(res){
+                            location.href = '{% url 'user:login' %}?next={% url 'index:category' cate_id order %}'
+                        }
+                    }
+                }
+            });
+        });
+		$('.decrease').click(function(){
+			var self = $(this);
+			var current_num = parseInt(self.siblings('input').val());
+			if(current_num > 0){
+				current_num -= 1;
+				var sku_id = self.siblings('input').attr('sku_id');
+                var count = -1;
+                var context = {
+                  'sku_id': sku_id,
+                  'count': count,
+                  'csrfmiddlewaretoken': '{{ csrf_token }}',
+                };
+                $.ajax({
+                    type:'POST',
+                    url:'{% url 'cart:shopcart' %}',
+                    data:context,
+                    dataType:'json',
+                    success:function (data) {
+                        if(data.code == 0){
+                            if(current_num < 1){
+                                self.fadeOut();
+                                self.siblings(".text_box").fadeOut();
+                            }
+                            self.siblings('input').val(current_num);
+                            // 更新购物车的显示数量
+                            $('#cart_count').text(data.cart_count);
+
+                        }else if(data.code == 1){
+                            var res = confirm('未登陆,是否登陆!');
+                            if(res){
+                                location.href = '{% url 'user:login' %}?next={% url 'index:category' cate_id order %}'
+                            }
+                        }
+                    }
+                });
+			}
+		});
+	})
+
+</script>
+	</body>
+</html>

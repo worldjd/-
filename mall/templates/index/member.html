@@ -8,11 +8,11 @@
     </header>
     <div style="height: 49px;"></div>
     <div class="member">
-        <div class="mem-tit">15078921546
+        <div class="mem-tit">{{ mobile }}
             <a href="{% url 'user:step' %}" class="step"><img src="{% static 'images/step.png' %}" width="26"/></a>
         </div>
         <div class="mem-pic">
-            <div class="mem-pic-bg" style="background-image: url({% static 'images/memtx.png' %});"></div>
+            <div class="mem-pic-bg" style="background-image: url({{ MEDIA_URL }}{{ image }});"></div>
         </div>
         <ul class="member-menu">
             <li>
@@ -45,16 +45,16 @@
         <div class="u-list-main">
             <img src="{% static 'images/order-pic.png' %}" width="27"/>
             <span>我的购物订单</span>
-            <a href="{% url 'index:allorder' %}">查看全部订单></a>
+            <a href="{% url 'allorder:allorder' %}">查看全部订单></a>
         </div>
         <ul class="user-nav">
-            <li><a href="{% url 'index:allorder' %}"> <img src="{% static 'images/1-icon.png' %}">
+            <li><a href=""> <img src="{% static 'images/1-icon.png' %}">
                 <p>待付款</p></a></li>
-            <li><a href="{% url 'index:allorder' %}"> <img src="{% static 'images/1-icon1.png' %}">
+            <li><a href=""> <img src="{% static 'images/1-icon1.png' %}">
                 <p>待收货</p></a></li>
-            <li><a href="{% url 'index:allorder' %}"> <img src="{% static 'images/1-icon2.png' %}">
+            <li><a href=""> <img src="{% static 'images/1-icon2.png' %}">
                 <p>待评价</p></a></li>
-            <li><a href="{% url 'index:allorder' %}"> <img src="{% static 'images/1-icon3.png' %}">
+            <li><a href=""> <img src="{% static 'images/1-icon3.png' %}">
                 <p>退换货</p></a></li>
         </ul>
         <div class="u-list-main">
@@ -117,7 +117,7 @@
         </li>
         <li>
             <div class="am-gallery-item">
-                <a href="{% url 'index:message' %}" class="">
+                <a href="{% url 'index:index' %}" class="">
                     <img src="{% static 'images/m_07.png' %}"/>
                     <p>我的动态</p>
                 </a>

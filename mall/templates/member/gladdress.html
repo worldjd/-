@@ -24,63 +24,81 @@
   	            <a href="" class="">管理收货地址</a>
             </h1>
             <div class="am-header-right am-header-nav">
-				<a href="address.html" class="">
+				<a href="{% url 'user:address' %}" class="">
 					<i class="am-icon-plus"></i>
 				</a>
 			</div>
 	    </header>
 	    <div style="height: 49px;"></div>
 	    <ul class="address-list">
-	    	<li class="curr">
-	    		<p>收货人：徐女士&nbsp;&nbsp;182********</p>
-	    		<p class="order-add1">收货地址：江西省南昌市 青云谱区解放西路258号江西省南昌市 青云谱区解放西路258号</p>
+	    	{% for g in glad %}
+	    	    <li del_id="{{ g.id }}" {% if g.isDefault %}class="curr"{% endif %}>
+	    		<p>收货人：{{ g.username }}&nbsp;&nbsp;{{ g.phone }}</p>
+	    		<p class="order-add1">收货地址：{{ g.detail }}</p>
 	    	    <hr />
 	    	    <div class="address-cz">
 	    	    	<label class="am-radio am-warning">
-                       <input type="radio" name="radio3" value="" data-am-ucheck checked> 设为默认
+                       <input type="radio" name="radio3" class="set_default" value="" data-am-ucheck {% if g.isDefault %}checked{% endif %}> 设为默认
                     </label>
-                    <a href=""><img src="{% static 'images/bj.png' %}" width="18" />&nbsp;编辑</a>
-                    <a href="">删除</a>
+                    <a href="{% url 'user:editdress' g.id %}"><img src="{% static 'images/bj.png' %}" width="18" />&nbsp;编辑</a>
+                    <a href="javascript:;" class="del">删除</a>
 	    	    </div>
-	    	</li>
-	    	<li>
-	    		<p>收货人：徐女士&nbsp;&nbsp;182********</p>
-	    		<p class="order-add1">收货地址：江西省南昌市 青云谱区解放西路258号江西省南昌市 青云谱区解放西路258号</p>
-	    	    <hr />
-	    	    <div class="address-cz">
-	    	    	<label class="am-radio am-warning">
-                       <input type="radio" name="radio3" value="" data-am-ucheck > 设为默认
-                    </label>
-                    <a href=""><img src="{% static 'images/bj.png' %}" width="18" />&nbsp;编辑</a>
-                    <a href="">删除</a>
-	    	    </div>
-	    	</li>
-	    	<li>
-	    		<p>收货人：徐女士&nbsp;&nbsp;182********</p>
-	    		<p class="order-add1">收货地址：江西省南昌市 青云谱区解放西路258号江西省南昌市 青云谱区解放西路258号</p>
-	    	    <hr />
-	    	    <div class="address-cz">
-	    	    	<label class="am-radio am-warning">
-                       <input type="radio" name="radio3" value="" data-am-ucheck > 设为默认
-                    </label>
-                    <a href=""><img src="{% static 'images/bj.png' %}" width="18" />&nbsp;编辑</a>
-                    <a href="">删除</a>
-	    	    </div>
-	    	</li>
-	    	<li>
-	    		<p>收货人：徐女士&nbsp;&nbsp;182********</p>
-	    		<p class="order-add1">收货地址：江西省南昌市 青云谱区解放西路258号江西省南昌市 青云谱区解放西路258号</p>
-	    	    <hr />
-	    	    <div class="address-cz">
-	    	    	<label class="am-radio am-warning">
-                       <input type="radio" name="radio3" value="" data-am-ucheck > 设为默认
-                    </label>
-                    <a href=""><img src="{% static 'images/bj.png' %}" width="18" />&nbsp;编辑</a>
-                    <a href="">删除</a>
-	    	    </div>
-	    	</li>
+	    	    </li>
+	    	{% endfor %}
 	    </ul>
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/amazeui.min.js' %}"></script>
+        <script>
+        $(function () {
+                // 删除
+                $('.del').on('click',function () {
+                // 准备数据
+                var li = $(this).parents('li');
+                var id = li.attr('del_id');
+                var context = {
+                    'id': id,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                };
+                // 发送ajax
+                $.ajax({
+                    type:'POST',
+                    url:'{% url 'user:deldress' %}',
+                    data:context,
+                    dataType:'json',
+                    success:function (data) {
+                        if(data.code == 0){
+                            li.remove()
+                        }else{
+                            alert('删除失败')
+                        }
+                    }
+                })
+            });
+                // 设为默认
+                $('.set_default').on('click',function () {
+                    // 获取数据
+                    var li = $(this).parents('li');
+                    var id = li.attr('del_id');
+                    var context = {
+                        'id': id,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    };
+                    // 发送ajax
+                    $.ajax({
+                        type: 'POST',
+                        url: '{% url 'user:setdefault' %}',
+                        data: context,
+                        dataType: 'json',
+                        success:function (data) {
+                            if(data.code == 0){
+                                location.reload()
+                            }else{
+                                alert('设置失败!')
+                            }
+                        }
+                    })
+                });
+        });
+        </script>
 	</body>
 </html>
